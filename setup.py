@@ -121,7 +121,7 @@ PACKAGE_DATA.update(get_package_data([ROOT_PACKAGE], 'schemas'))
 # since all versions were pinned exactly, which is overkill
 INSTALL_REQUIRES = [
     'geolinks==0.2.0',
-    'lxml~=3.6',
+    'lxml',
     'OWSLib~0.13',
     'pyproj~=1.9',
     'Shapely~=1.3',
