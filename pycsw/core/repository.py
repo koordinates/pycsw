@@ -339,7 +339,7 @@ class Repository(object):
                 self.session.rollback()
                 msg = 'Cannot commit to repository'
                 LOGGER.exception(msg)
-                raise RuntimeError(msg)
+                raise RuntimeError(msg) from err
         else:  # update based on record properties
             LOGGER.debug('property based update')
             try:
@@ -374,7 +374,7 @@ class Repository(object):
                 self.session.rollback()
                 msg = 'Cannot commit to repository'
                 LOGGER.exception(msg)
-                raise RuntimeError(msg)
+                raise RuntimeError(msg) from err
 
     def delete(self, constraint):
         ''' Delete a record from the repository '''
@@ -404,7 +404,7 @@ class Repository(object):
             self.session.rollback()
             msg = 'Cannot commit to repository'
             LOGGER.exception(msg)
-            raise RuntimeError(msg)
+            raise RuntimeError(msg) from err
 
         return rows
 
@@ -512,8 +512,8 @@ def update_xpath(nsmap, xml, recprop):
                 if node1.text != recprop['value']:  # values differ, update
                     node1.text = recprop['value']
     except Exception as err:
-        raise RuntimeError('ERROR: %s' % str(err))
         LOGGER.warning('update_xpath error', exc_info=True)
+        raise RuntimeError('ERROR: %s' % str(err)) from err
 
     return etree.tostring(xml)
 

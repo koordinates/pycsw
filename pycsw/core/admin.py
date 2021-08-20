@@ -397,7 +397,7 @@ def export_records(context, database, table, xml_dirpath):
             os.makedirs(dirpath)
         except OSError as err:
             LOGGER.exception('Could not create directory')
-            raise RuntimeError('Could not create %s %s' % (dirpath, err))
+            raise RuntimeError('Could not create %s %s' % (dirpath, err)) from err
 
     for record in records.all():
         identifier = \
@@ -549,7 +549,7 @@ def post_xml(url, xml, timeout=30):
             return http_post(url=url, request=f.read(), timeout=timeout)
     except Exception as err:
         LOGGER.exception('HTTP XML POST error')
-        raise RuntimeError(err)
+        raise RuntimeError(err) from err
 
 
 def get_sysprof():
@@ -614,7 +614,7 @@ def validate_xml(xml, xsd):
         return 'Valid'
     except Exception as err:
         LOGGER.exception('Invalid XML')
-        raise RuntimeError('ERROR: %s' % str(err))
+        raise RuntimeError('ERROR: %s' % str(err)) from err
 
 
 def delete_records(context, database, table):
