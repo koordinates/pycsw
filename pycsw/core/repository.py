@@ -156,9 +156,10 @@ class Repository(object):
                     "limit 1;" % table_name
                 )
                 row = result.fetchone()
-                self.postgis_geometry_column = str(row['f_geometry_column'])
-                temp_dbtype = 'postgresql+postgis+native'
-                LOGGER.debug('PostgreSQL+PostGIS+Native detected')
+                if row is not None:
+                    self.postgis_geometry_column = str(row['f_geometry_column'])
+                    temp_dbtype = 'postgresql+postgis+native'
+                    LOGGER.debug('PostgreSQL+PostGIS+Native detected')
             except Exception as err:
                 LOGGER.exception('PostgreSQL+PostGIS+Native not picked up: %s', table_name)
 
